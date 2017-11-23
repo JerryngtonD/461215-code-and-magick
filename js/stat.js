@@ -33,7 +33,7 @@ window.renderStatistics = function (ctx, names, times) {
       max = time;
     }
   }
-  
+
   var step = histogramWidth / (max - defaultIndent);
 
   var initializeYresult = 60;
@@ -48,11 +48,11 @@ window.renderStatistics = function (ctx, names, times) {
   }
 
   function getObjNamesAndValues() {
-    var NamestoTimes = {};
+    var NamesToTimes = {};
     for (var index = 0; index < names.length; index++) {
-      NamestoTimes['' + names[index]] = times[index];
+      NamesToTimes['' + names[index]] = times[index];
     }
-    return NamestoTimes;
+    return NamesToTimes;
   }
 
   function getSortedObj(object) {
@@ -61,11 +61,11 @@ window.renderStatistics = function (ctx, names, times) {
       return b - a;
     });
 
-    var NamestoTimes = {};
+    var NamesToTimes = {};
     for (var index = 0; index < sortedKeys.length; index++) {
-      NamestoTimes['' + sortedKeys[index]] = sortedValues[index];
+      NamesToTimes['' + sortedKeys[index]] = sortedValues[index];
     }
-    return NamestoTimes;
+    return NamesToTimes;
   }
 
 
@@ -74,13 +74,12 @@ window.renderStatistics = function (ctx, names, times) {
   var counter = 0;
   for (var propt in namesAndTimesObj) {
     if (propt === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, ' + 1 + ')';
+      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
       var opacity = 0;
       while (opacity === 0) {
         opacity = Math.random();
       }
-      console.log(opacity);
       ctx.fillStyle = 'rgba(0, 0, 255, ' + opacity + ')';
     }
     ctx.fillRect(140 + 80 * counter, 250, 40, -namesAndTimesObj[propt] * step);
