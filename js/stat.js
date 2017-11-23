@@ -48,11 +48,11 @@ window.renderStatistics = function (ctx, names, times) {
   }
 
   function getObjNamesAndValues() {
-    var NamesToTimes = {};
+    var namesToTimes = {};
     for (var index = 0; index < names.length; index++) {
-      NamesToTimes['' + names[index]] = times[index];
+      namesToTimes['' + names[index]] = times[index];
     }
-    return NamesToTimes;
+    return namesToTimes;
   }
 
   function getSortedObj(object) {
@@ -61,11 +61,11 @@ window.renderStatistics = function (ctx, names, times) {
       return b - a;
     });
 
-    var NamesToTimes = {};
+    var namesToTimes = {};
     for (var index = 0; index < sortedKeys.length; index++) {
-      NamesToTimes['' + sortedKeys[index]] = sortedValues[index];
+      namesToTimes['' + sortedKeys[index]] = sortedValues[index];
     }
-    return NamesToTimes;
+    return namesToTimes;
   }
 
 
