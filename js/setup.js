@@ -200,6 +200,7 @@ var changeActiveFireballColor = function () {
   return fireballColors[indexFireballColor % fireballColors.length + 1];
 };
 
+
 var setupFireball = document.querySelector('.setup-fireball-wrap');
 setupFireball.addEventListener('click', function () {
   var colorClick = changeActiveFireballColor();
