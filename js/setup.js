@@ -3,6 +3,26 @@
 
 var userDialog = document.querySelector('.setup');
 
+var setupWizard = document.querySelector('.setup-wizard');
+var coat = setupWizard.querySelector('.wizard-coat');
+var eyes = setupWizard.querySelector('.wizard-eyes');
+
+var fireball = document.querySelector('.setup-fireball-wrap');
+
+var fillElement = function (element, color) {
+  element.style.fill = color;
+};
+
+var changeElementBackground = function (element, color) {
+  element.style.background = color;
+};
+
+
+window.colorizeElement(coat, ['red', 'green', 'blue'], fillElement);
+window.colorizeElement(eyes, ['navy', 'teal', 'orange'], fillElement);
+window.colorizeElement(fireball, ['yellow', 'black', 'aliceblue'], changeElementBackground);
+
+
 document.querySelector('.setup-similar').classList.remove('hidden');
 
 var similarListElement = document.querySelector('.setup-similar-list');
@@ -38,6 +58,7 @@ window.wizardAttributes = {
 
 };
 
+
 function shuffle(a) {
   var j;
   var x;
@@ -59,7 +80,6 @@ var renderWizard = function (wizard) {
 
   return wizardElement;
 };
-
 
 var wizards = [];
 function getWizardsSet() {
@@ -100,3 +120,5 @@ function populate(domElement) {
 populate(similarListElement);
 
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+
