@@ -210,4 +210,32 @@
     evt.preventDefault();
   });
 
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style.display = 'flex';
+    node.style.justifyContent = 'space-around';
+    node.style.backgroundColor = 'white';
+    var firstInnerContent = document.createElement('div');
+    firstInnerContent.innerHTML = 'Ошибка:';
+    firstInnerContent.style = 'z-index: 100; text-align: center; background-color: red;';
+    firstInnerContent.style.fontSize = '30px';
+    var secondInnerContent = document.createElement('div');
+    node.appendChild(firstInnerContent);
+    node.appendChild(secondInnerContent);
+    secondInnerContent.style = 'z-index: 100; text-align: center; background-color: red;';
+    secondInnerContent.style.fontSize = '30px';
+
+    secondInnerContent.innerHTML = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+
+  var form = setup.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), function () {
+      setup.classList.add('hidden');
+    }, errorHandler);
+    evt.preventDefault();
+  });
+
 })();
