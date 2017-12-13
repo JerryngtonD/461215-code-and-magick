@@ -59,66 +59,47 @@ window.wizardAttributes = {
 };
 
 
-function shuffle(a) {
-  var j;
-  var x;
-  var i;
-  for (i = a.length - 1; i > 0; i--) {
-    j = Math.floor(Math.random() * (i + 1));
-    x = a[i];
-    a[i] = a[j];
-    a[j] = x;
-  }
-}
-
 var renderWizard = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
+  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
 
   return wizardElement;
 };
 
-var wizards = [];
-function getWizardsSet() {
-  var wizardsItems = [];
-  for (var i = 0; i < 4; i++) {
-    var wizard = {};
 
-    var alias = [];
-    var nameItem = window.wizardAttributes.names[Math.floor(Math.random() * window.wizardAttributes.names.length)];
-    var surnameItem = window.wizardAttributes.surnames[Math.floor(Math.random() * window.wizardAttributes.surnames.length)];
-    alias.push(nameItem, surnameItem);
-    shuffle(alias);
-
-    var name = alias.join(' ');
-    var coatColor = window.wizardAttributes.coatColors[Math.floor(Math.random() * window.wizardAttributes.coatColors.length)];
-    var eyesColor = window.wizardAttributes.eyesColors[Math.floor(Math.random() * window.wizardAttributes.eyesColors.length)];
-
-    wizard['name'] = name;
-    wizard['coatColor'] = coatColor;
-    wizard['eyesColor'] = eyesColor;
-
-    wizardsItems.push(wizard);
-  }
-  return wizardsItems;
-}
-
-wizards = getWizardsSet();
-
-function populate(domElement) {
+var successHandler = function (wizards) {
   var fragment = document.createDocumentFragment();
-  for (var j = 0; j < wizards.length; j++) {
-    fragment.appendChild(renderWizard(wizards[j]));
+
+  for (var i = 0; i < 4; i++) {
+    fragment.appendChild(renderWizard(wizards[i]));
   }
+  similarListElement.appendChild(fragment);
 
-  domElement.appendChild(fragment);
-}
+  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+};
 
-populate(similarListElement);
+var errorHandler = function (errorMessage) {
+  var node = document.createElement('div');
+  node.style.display = 'flex';
+  node.style.justifyContent = 'space-around';
+  node.style.backgroundColor = 'white';
+  var firstInnerContent = document.createElement('div');
+  firstInnerContent.innerHTML = 'Ошибка:';
+  firstInnerContent.style = 'z-index: 100; text-align: center; background-color: red;';
+  firstInnerContent.style.fontSize = '30px';
+  var secondInnerContent = document.createElement('div');
+  node.appendChild(firstInnerContent);
+  node.appendChild(secondInnerContent);
+  secondInnerContent.style = 'z-index: 100; text-align: center; background-color: red;';
+  secondInnerContent.style.fontSize = '30px';
 
-userDialog.querySelector('.setup-similar').classList.remove('hidden');
+  secondInnerContent.innerHTML = errorMessage;
+  document.body.insertAdjacentElement('afterbegin', node);
+};
+
+window.backend.load(successHandler, errorHandler);
 
 
