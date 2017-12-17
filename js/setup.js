@@ -1,8 +1,6 @@
 // Файл setup.js
 'use strict';
 
-var userDialog = document.querySelector('.setup');
-
 var setupWizard = document.querySelector('.setup-wizard');
 var coat = setupWizard.querySelector('.wizard-coat');
 var eyes = setupWizard.querySelector('.wizard-eyes');
@@ -17,16 +15,6 @@ var changeElementBackground = function (element, color) {
   element.style.background = color;
 };
 
-
-window.colorizeElement(coat, ['red', 'green', 'blue'], fillElement);
-window.colorizeElement(eyes, ['navy', 'teal', 'orange'], fillElement);
-window.colorizeElement(fireball, ['yellow', 'black', 'aliceblue'], changeElementBackground);
-
-
-document.querySelector('.setup-similar').classList.remove('hidden');
-
-var similarListElement = document.querySelector('.setup-similar-list');
-var similarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 
 window.wizardAttributes = {
   names: ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'],
@@ -58,27 +46,25 @@ window.wizardAttributes = {
 
 };
 
+window.colorizeElement(coat, window.wizardAttributes.coatColors, fillElement);
+window.colorizeElement(eyes, window.wizardAttributes.eyesColors, fillElement);
+window.colorizeElement(fireball, window.wizardAttributes.fireballColors, changeElementBackground);
 
-var renderWizard = function (wizard) {
-  var wizardElement = similarWizardTemplate.cloneNode(true);
 
-  wizardElement.querySelector('.setup-similar-label').textContent = wizard.name;
-  wizardElement.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
-  wizardElement.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
+document.querySelector('.setup-similar').classList.remove('hidden');
 
-  return wizardElement;
+
+window.wizards = [];
+
+window.similarRenderAttrs = {
+  coatColor: coat.style.fill,
+  eyesColor: eyes.style.fill,
+  fireballColor: '',
 };
 
-
-var successHandler = function (wizards) {
-  var fragment = document.createDocumentFragment();
-
-  for (var i = 0; i < 4; i++) {
-    fragment.appendChild(renderWizard(wizards[i]));
-  }
-  similarListElement.appendChild(fragment);
-
-  userDialog.querySelector('.setup-similar').classList.remove('hidden');
+var successHandler = function (data) {
+  window.wizards = data;
+  window.debounce(window.updateWizards(window.wizards));
 };
 
 var errorHandler = function (errorMessage) {
